@@ -1,0 +1,130 @@
+﻿@model MoneyTracker1.Models.Transaction
+
+@{
+    ViewData["Title"] = "Добавить транзакцию";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0"><i class="fas fa-plus-circle me-2"></i>Добавить новую транзакцию</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="Create" method="post" class="needs-validation" novalidate>
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                <div class="row g-3">
+                    <!-- Сумма -->
+                    <div class="col-md-6">
+                        <label asp-for="Amount" class="form-label">Сумма*</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-money-bill-wave"></i></span>
+                            <input asp-for="Amount" class="form-control" required />
+                        </div>
+                        <span asp-validation-for="Amount" class="text-danger small"></span>
+                    </div>
+
+                    <!-- Дата -->
+                    <div class="col-md-6">
+                        <label asp-for="Date" class="form-label">Дата*</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                            <input asp-for="Date" type="date" class="form-control" required />
+                        </div>
+                        <span asp-validation-for="Date" class="text-danger small"></span>
+                    </div>
+
+                    <!-- Описание -->
+                    <div class="col-12">
+                        <label asp-for="Description" class="form-label">Описание</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="far fa-comment"></i></span>
+                            <textarea asp-for="Description" class="form-control" rows="2"></textarea>
+                        </div>
+                        <span asp-validation-for="Description" class="text-danger small"></span>
+                    </div>
+
+                    <!-- Категория -->
+                    <div class="col-md-6">
+                        <label asp-for="CategoryId" class="form-label">Категория*</label>
+                        <select asp-for="CategoryId" class="form-select" required
+                                asp-items="ViewBag.CategoryId">
+                            <option value="">-- Выберите категорию --</option>
+                        </select>
+                        <span asp-validation-for="CategoryId" class="text-danger small"></span>
+                    </div>
+
+                    <!-- Тип транзакции -->
+                    <div class="col-md-6">
+                        <label asp-for="TransactionType" class="form-label">Тип операции*</label>
+                        <select asp-for="TransactionType" class="form-select" required>
+                            <option value="">-- Выберите тип --</option>
+                            <option value="0">Доход</option>
+                            <option value="1">Расход</option>
+                        </select>
+                        <span asp-validation-for="TransactionType" class="text-danger small"></span>
+                    </div>
+
+                    <!-- Кнопки -->
+                    <div class="col-12 mt-4">
+                        <div class="d-flex justify-content-between">
+                            <a asp-action="Index" class="btn btn-outline-secondary"
+                               data-bs-toggle="tooltip" title="Вернуться к списку транзакций">
+                                <i class="fas fa-arrow-left me-1"></i> Назад
+                            </a>
+                            <button type="submit" class="btn btn-primary px-4"
+                                    data-bs-toggle="tooltip" title="Сохранить новую транзакцию">
+                                <i class="fas fa-save me-1"></i> Сохранить
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@* @section Styles {
+    <style>
+        .card {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .input-group-text {
+            min-width: 45px;
+            justify-content: center;
+        }
+    </style>
+} *@
+
+@section Scripts {
+    <script>
+        // Инициализация tooltips
+        document.addEventListener('DOMContentLoaded', function() {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.map(function (element) {
+                return new bootstrap.Tooltip(element);
+            });
+
+            // Клиентская валидация
+            var forms = document.querySelectorAll('.needs-validation');
+            Array.prototype.slice.call(forms).forEach(function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        });
+    </script>
+}
