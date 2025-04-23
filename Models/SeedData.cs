@@ -18,28 +18,21 @@ namespace MoneyTracker1.Models
                     throw new ArgumentNullException("Null AppDbContext");
                 }
 
-                //Если в базе данных уже есть категории, 
-                // то возвращается инициализатор заполнения и категории не добавляются
-                if (context.Categories.Any())
-                {
-                    return; //уже добавлена
+                if (context.Categories.Any() || context.Transactions.Any()) { 
+                
+                    return;
                 }
 
-                //Переменная отвечающая за создание списка предварительных категорий для БД
-                var categories = new List<Category>
+                foreach (var category in Category.Categories)
                 {
-                    new Category {Name = "Зарплата", Type = "Income"},
-                    new Category {Name = "Дополнительный доход", Type = "Income"},
-                    new Category {Name = "Продукты", Type = "Expense"},
-                    new Category {Name = "Развлечения", Type = "Expense"},
-                    new Category {Name = "Транспорт", Type = "Expense"},
-                    new Category {Name = "Спорт", Type = "Expense"}
-
-                };
-
-                Console.WriteLine("SeedData: добавляю категории...");
-                context.Categories.AddRange(categories); //добавляю категории в таблицу
+                    if (!context.Categories.Any(c => c.Name == category.Name && c.Type == category.Type))
+                    {
+                        context.Categories.Add(category);
+                    }
+                }
                 context.SaveChanges(); //сохраняю категории
+
+                var dbCategory = context.Categories.ToList();
 
                 context.Transactions.AddRange(
                     new Transaction
@@ -47,7 +40,7 @@ namespace MoneyTracker1.Models
                         Amount = 100000,
                         Date = DateTime.UtcNow.AddDays(-12),
                         Description = "Зарплата за март",
-                        CategoryId = categories.First(c => c.Name == "Зарплата").Id,
+                        CategoryId = dbCategory.First(c => c.Name == "Основной доход").Id,
                         TransactionType = TransactionType.Income,
 
                     },
@@ -56,7 +49,7 @@ namespace MoneyTracker1.Models
                         Amount = 3000,
                         Date = DateTime.UtcNow.AddDays(-7),
                         Description = "Фриланс-проект",
-                        CategoryId = categories.First(c => c.Name == "Дополнительный доход").Id,
+                        CategoryId = dbCategory.First(c => c.Name == "Дополнительный доход").Id,
                         TransactionType = TransactionType.Income
                     },
                     new Transaction
@@ -64,7 +57,7 @@ namespace MoneyTracker1.Models
                         Amount = 1100,
                         Date = DateTime.UtcNow.AddDays(-5),
                         Description = "Магазин Лента",
-                        CategoryId = categories.First(c => c.Name == "Продукты").Id,
+                        CategoryId = dbCategory.First(c => c.Name == "Продукты").Id,
                         TransactionType = TransactionType.Expense
                     },
                     new Transaction
@@ -72,7 +65,7 @@ namespace MoneyTracker1.Models
                         Amount = 600,
                         Date = DateTime.UtcNow.AddDays(-3),
                         Description = "Кинотеатр",
-                        CategoryId = categories.First(c => c.Name == "Развлечения").Id,
+                        CategoryId = dbCategory.First(c => c.Name == "Развлечения").Id,
                         TransactionType = TransactionType.Expense
                     },
                     new Transaction
@@ -80,7 +73,7 @@ namespace MoneyTracker1.Models
                         Amount = 600,
                         Date = DateTime.UtcNow.AddDays(-3),
                         Description = "Тренировка",
-                        CategoryId = categories.First(c => c.Name == "Спорт").Id,
+                        CategoryId = dbCategory.First(c => c.Name == "Спорт").Id,
                         TransactionType = TransactionType.Expense
                     }
 

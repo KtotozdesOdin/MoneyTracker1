@@ -13,5 +13,20 @@ namespace MoneyTracker1.Models
         public string Type { get; set; }
 
         public ICollection<Transaction> Transactions { get; set; }
+
+        public static IReadOnlyCollection<Category> Categories = new List<Category>()
+        {
+            new Category { Name = "Основной доход", Type = "Income" },
+            new Category { Name = "Дополнительный доход", Type = "Income" },
+            new Category { Name = "Продукты", Type = "Expense" },
+            new Category { Name = "Развлечения", Type = "Expense" },
+            new Category { Name = "Транспорт", Type = "Expense" },
+            new Category { Name = "Спорт", Type = "Expense" },
+            new Category { Name = "Жилье", Type = "Expense" },
+            new Category { Name = "Кредиты", Type = "Expense" },
+            new Category { Name = "Животные", Type = "Expense" },
+            new Category { Name = "Иное", Type = "Expense" }
+        };
+
     }
 }

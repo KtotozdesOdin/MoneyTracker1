@@ -14,6 +14,8 @@ namespace MoneyTracker1.Data
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<Category> Categories { get; set; }
 
+
+
         
     }
 }
