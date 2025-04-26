@@ -10,11 +10,12 @@ namespace MoneyTracker1.Models
         public string Name { get; set; }
         
         [Required]
-        public string Type { get; set; }
+        public string Type { get; set; }  //Доход или расход
 
-        public ICollection<Transaction> Transactions { get; set; }
+        public ICollection<Transaction> Transactions { get; set; }  //свойство для определения связи один ко многим
+                                                                    //одна категории много тразакций
 
-        public static IReadOnlyCollection<Category> Categories = new List<Category>()
+        public static IEnumerable<Category> Categories = new List<Category>()
         {
             new Category { Name = "Основной доход", Type = "Income" },
             new Category { Name = "Дополнительный доход", Type = "Income" },
