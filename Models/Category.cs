@@ -11,6 +11,8 @@ namespace MoneyTracker1.Models
         
         [Required]
         public string Type { get; set; }  //Доход или расход
+        
+        public string Color => Type == "Income" ? "#28a745" : "#dc3545";
 
         public ICollection<Transaction> Transactions { get; set; }  //свойство для определения связи один ко многим
                                                                     //одна категории много тразакций
