@@ -37,8 +37,8 @@
                     {
                         <li>
                             <a class="dropdown-item" asp-action="Index" asp-route-categoryId="@category.Id">
-                                <span class="badge me-2" style="background-color: @category.Color !important">
-                                    @category.Name
+                                <span class="badge @(category.Color)">
+                                    @category.Type
                                 </span>
                             </a>
                         </li>
@@ -78,8 +78,8 @@
                                 @item.Description
                             </td>
                             <td>
-                                <span class="badge bg-secondary">
-                                    @item.Category.Name
+                                <span class="badge @(item.ColorTransaction)">
+                                    @item.TransactionType
                                 </span>
                             </td>
                             <td class="text-end">
