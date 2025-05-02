@@ -10,8 +10,26 @@ namespace MoneyTracker1.Models
         public string Name { get; set; }
         
         [Required]
-        public string Type { get; set; }
+        public string Type { get; set; }  //Доход или расход
+        
+        public string Color => Type == "Income" ? "#28a745" : "#dc3545";
 
-        public ICollection<Transaction> Transactions { get; set; }
+        public ICollection<Transaction> Transactions { get; set; }  //свойство для определения связи один ко многим
+                                                                    //одна категории много тразакций
+
+        public static IEnumerable<Category> Categories = new List<Category>()
+        {
+            new Category { Name = "Основной доход", Type = "Income" },
+            new Category { Name = "Дополнительный доход", Type = "Income" },
+            new Category { Name = "Продукты", Type = "Expense" },
+            new Category { Name = "Развлечения", Type = "Expense" },
+            new Category { Name = "Транспорт", Type = "Expense" },
+            new Category { Name = "Спорт", Type = "Expense" },
+            new Category { Name = "Жилье", Type = "Expense" },
+            new Category { Name = "Кредиты", Type = "Expense" },
+            new Category { Name = "Животные", Type = "Expense" },
+            new Category { Name = "Иное", Type = "Expense" }
+        };
+
     }
 }

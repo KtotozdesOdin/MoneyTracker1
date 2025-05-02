@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MoneyTracker1.Models;
 using MoneyTracker1.Data;
+using System.Security.Claims;
 
 namespace MoneyTracker1.Controllers
 {
@@ -22,10 +23,29 @@ namespace MoneyTracker1.Controllers
 
         // GET: Transactions
        [Authorize]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? categoryId)
         {
-            var appDbContext = _context.Transactions.Include(t => t.Category);
-            return View(await appDbContext.ToListAsync());
+            // Получаем список всех категорий для фильтра
+            ViewBag.Categories = await _context.Categories.ToListAsync();                      
+
+            // Основной запрос с фильтрацией
+            IQueryable<Transaction> query = _context.Transactions.Include(t => t.Category);                
+
+            // фильтр по категории если он задан
+            if (categoryId.HasValue && categoryId > 0)
+            {
+                query = query.Where(t => t.CategoryId == categoryId.Value);
+                ViewBag.SelectedCategoryId = categoryId.Value;
+            }
+
+            return View(await query.OrderByDescending(t => t.Date).ToListAsync());
+        }
+
+        //метод фильтрации по категории
+        private IActionResult SortByCategory()
+        {
+            var appDbContext = _context.Transactions.Include(t =>t.Category).Select(t => t.Category.Name).ToList();
+            return View(appDbContext);
         }
 
         // GET: Transactions/Details/5

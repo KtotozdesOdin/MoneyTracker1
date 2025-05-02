@@ -1,13 +1,56 @@
 ﻿@using System.Linq
 @model IEnumerable<MoneyTracker1.Models.Transaction>
 
+@{
+    ViewData["Title"] = "Транзакции";
+}
+
 <div class="container mt-4">
-    <!-- Заголовок с кнопкой добавления -->
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2>Транзакции</h2>
-        <a href="@Url.Action("Create", "Transactions")" class="btn btn-primary">
-            <i class="fas fa-plus-circle me-2"></i>Добавить транзакцию
-        </a>
+    <!-- Заголовок с кнопкой добавления и фильтром -->
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+        <h2 class="mb-0">Транзакции</h2>
+
+        <div class="d-flex gap-2">
+
+            <!-- Фильтр по категориям -->
+            <div class="dropdown">
+                @{
+                    var selectedCategoryName = "Все категории";
+                    if (ViewBag.SelectedCategoryId != null)
+                    {
+                        var selectedCategory = ((IEnumerable<Category>)ViewBag.Categories)
+                        .FirstOrDefault(c => c.Id == ViewBag.SelectedCategoryId);
+                        selectedCategoryName = selectedCategory?.Name ?? "Все категории";
+                    }
+                }
+
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="categoryFilter"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-filter me-1"></i>
+                    @selectedCategoryName
+                </button>
+
+
+                <ul class="dropdown-menu" aria-labelledby="categoryFilter">
+                    <li><a class="dropdown-item" asp-action="Index"><i class="fas fa-list me-2"></i>Все категории</a></li>
+                    @foreach (var category in (IEnumerable<Category>)ViewBag.Categories)
+                    {
+                        <li>
+                            <a class="dropdown-item" asp-action="Index" asp-route-categoryId="@category.Id">
+                                <span class="badge me-2" style="background-color: @category.Color !important">
+                                    @category.Name
+                                </span>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+
+            <!-- Кнопка добавления -->
+            <a href="@Url.Action("Create", "Transactions")" class="btn btn-primary">
+                <i class="fas fa-plus-circle me-2"></i>Добавить
+            </a>
+        </div>
     </div>
 
     <!-- Таблица -->
