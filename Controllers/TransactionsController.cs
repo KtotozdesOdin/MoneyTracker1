@@ -39,14 +39,7 @@ namespace MoneyTracker1.Controllers
             }
 
             return View(await query.OrderByDescending(t => t.Date).ToListAsync());
-        }
-
-        //метод фильтрации по категории
-        private IActionResult SortByCategory()
-        {
-            var appDbContext = _context.Transactions.Include(t =>t.Category).Select(t => t.Category.Name).ToList();
-            return View(appDbContext);
-        }
+        }     
 
         // GET: Transactions/Details/5
         public async Task<IActionResult> Details(int? id)
