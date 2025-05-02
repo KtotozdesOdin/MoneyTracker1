@@ -30,7 +30,7 @@ namespace MoneyTracker1.Models
         [ForeignKey("UserId")]
         public IdentityUser? User { get; set; }
 
-        
+        //цвета для транзакций по типу
         public string ColorTransaction => TransactionType == TransactionType.Income ? "bg-success" : "bg-warning";
     }
 }
