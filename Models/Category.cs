@@ -12,10 +12,10 @@ namespace MoneyTracker1.Models
         [Required]
         public string Type { get; set; }  //Доход или расход
         
-        public string Color => Type == "Income" ? "bg-success" : "bg-warning";
+        public string Color => Type == "Income" ? "bg-success" : "bg-danger";
 
-        public ICollection<Transaction> Transactions { get; set; }  //свойство для определения связи один ко многим
-                                                                    //одна категории много тразакций
+        public ICollection<Transaction> Transactions { get; set; }  //свойство для определения связи один ко многим 
+                                                                    //одна категория много тразакций
 
         public static IEnumerable<Category> Categories = new List<Category>()
         {
