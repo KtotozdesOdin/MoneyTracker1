@@ -22,12 +22,17 @@ namespace MoneyTracker1
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+            builder.Services.AddIdentity<User, IdentityRole>(options => // Используем наш User класс
             {
                 options.User.RequireUniqueEmail = true;
                 options.Password.RequiredLength = 6;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = true;
             })
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
 
             // Поддержка Razor Pages для Identity UI
             builder.Services.AddRazorPages();
@@ -68,10 +73,12 @@ namespace MoneyTracker1
             app.UseAuthorization();
 
             app.MapStaticAssets();
+
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}")
                 .WithStaticAssets();
+
             app.MapRazorPages()
                .WithStaticAssets();
 

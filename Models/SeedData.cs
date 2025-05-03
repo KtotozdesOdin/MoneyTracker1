@@ -18,8 +18,9 @@ namespace MoneyTracker1.Models
                     throw new ArgumentNullException("Null AppDbContext");
                 }
 
-                if (context.Categories.Any() || context.Transactions.Any()) { 
-                
+                if (context.Categories.Any() || context.Transactions.Any())
+                {
+
                     return;
                 }
 
@@ -75,7 +76,51 @@ namespace MoneyTracker1.Models
                         Description = "Тренировка",
                         CategoryId = dbCategory.First(c => c.Name == "Спорт").Id,
                         TransactionType = TransactionType.Expense
+                    },
+
+                    new Transaction
+                    {
+                        Amount = 115000,
+                        Date = DateTime.UtcNow.AddDays(-12),
+                        Description = "Зарплата Апрель",
+                        CategoryId = dbCategory.First(c => c.Name == "Основной доход").Id,
+                        TransactionType = TransactionType.Income,
+
+                    },
+                    new Transaction
+                    {
+                        Amount = 25000,
+                        Date = DateTime.UtcNow.AddDays(-7),
+                        Description = "Премия",
+                        CategoryId = dbCategory.First(c => c.Name == "Дополнительный доход").Id,
+                        TransactionType = TransactionType.Income
+                    },
+                    new Transaction
+                    {
+                        Amount = 2750,
+                        Date = DateTime.UtcNow.AddDays(-4),
+                        Description = "Корм для кота",
+                        CategoryId = dbCategory.First(c => c.Name == "Животные").Id,
+                        TransactionType = TransactionType.Expense
+                    },
+
+                    new Transaction
+                    {
+                        Amount = 2750,
+                        Date = DateTime.UtcNow.AddDays(-2),
+                        Description = "Кредит машина",
+                        CategoryId = dbCategory.First(c => c.Name == "Кредиты").Id,
+                        TransactionType = TransactionType.Expense
+                    },
+                    new Transaction
+                    {
+                        Amount = 2750,
+                        Date = DateTime.UtcNow.AddDays(-8),
+                        Description = "Командировка",
+                        CategoryId = dbCategory.First(c => c.Name == "Иное").Id,
+                        TransactionType = TransactionType.Expense
                     }
+
 
                 );                        
 
