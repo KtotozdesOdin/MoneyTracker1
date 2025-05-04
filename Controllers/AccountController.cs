@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Shared;
 using MoneyTracker1.Models;
@@ -16,6 +17,20 @@ namespace MoneyTracker1.Controllers
         {
             _userManager = userManager;
             _signInManager = signInManager;
+        }
+
+
+        //(Личный кабинет)
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> UserPage()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return View(user);
         }
 
         //Get: /Account/Register

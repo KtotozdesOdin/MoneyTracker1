@@ -197,6 +197,9 @@ namespace MoneyTracker1.Controllers
             return _context.Transactions.Any(e => e.Id == id);
         }
 
+
+
+        //Анализ расходов
         [Authorize]
         public IActionResult ExpensesChart()
         {
