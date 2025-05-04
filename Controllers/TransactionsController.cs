@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using MoneyTracker1.Models;
 using MoneyTracker1.Data;
 using System.Security.Claims;
+using MoneyTracker1.Models.Enums;
 
 namespace MoneyTracker1.Controllers
 {
@@ -194,6 +195,30 @@ namespace MoneyTracker1.Controllers
         private bool TransactionExists(int id)
         {
             return _context.Transactions.Any(e => e.Id == id);
+        }
+
+        [Authorize]
+        public IActionResult ExpensesChart()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetExpensesChartData()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var data = await _context.Transactions
+                .Where(t => t.TransactionType == TransactionType.Expense)
+                .GroupBy(t => t.Category.Name)
+                .Select(g => new
+                {
+                    Category = g.Key,
+                    Amount = g.Sum(t => t.Amount)
+                })
+                .ToListAsync();
+
+            return Json(data);
         }
     }
 }

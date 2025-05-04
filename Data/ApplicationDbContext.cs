@@ -27,6 +27,6 @@ namespace MoneyTracker1.Data
                 .HasForeignKey(t => t.UserId);
 
         }
-    }
+    } 
 }
     
