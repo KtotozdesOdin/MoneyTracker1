@@ -32,7 +32,7 @@ namespace MoneyTracker1
                 options.Password.RequireUppercase = true;
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders();
 
             // Поддержка Razor Pages для Identity UI
             builder.Services.AddRazorPages();
