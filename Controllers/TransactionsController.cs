@@ -72,7 +72,7 @@ namespace MoneyTracker1.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Amount,Date,Description,CategoryId,TransactionType")] TransactionCreateViewModel transaction)
         {
             if (ModelState.IsValid)
@@ -126,7 +126,7 @@ namespace MoneyTracker1.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Amount,Date,Description,CategoryId,TransactionType")] Transaction transaction)
         {
             if (id != transaction.Id)
@@ -179,7 +179,7 @@ namespace MoneyTracker1.Controllers
 
         // POST: Transactions/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+       // [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var transaction = await _context.Transactions.FindAsync(id);
@@ -199,7 +199,8 @@ namespace MoneyTracker1.Controllers
 
 
 
-        //Анализ расходов
+        //Анализ расходов диаграмма
+        [HttpGet]
         [Authorize]
         public IActionResult ExpensesChart()
         {

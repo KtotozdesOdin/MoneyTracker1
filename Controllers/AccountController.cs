@@ -94,16 +94,22 @@ namespace MoneyTracker1.Controllers
                 }
 
                 var result = await _signInManager.PasswordSignInAsync(
-                    user,
+                    model.Email,
                     model.Password,
                     model.RememberMe,
-                    lockoutOnFailure: false);
+                    lockoutOnFailure: true);
 
                 if (result.Succeeded)
                 {
                     return RedirectToLocal(returnUrl);
                 }
-                ModelState.AddModelError(string.Empty, "Неверный ввод");
+                if (result.IsLockedOut)
+                {
+                    ModelState.AddModelError(string.Empty, "Аккаунт временно заблокирован");
+                    return View(model);
+                }
+
+                ModelState.AddModelError(string.Empty, "Неверный email или пароль");
 
             }
             return View(model);
